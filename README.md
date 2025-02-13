@@ -12,3 +12,8 @@
 - добавить action (setAppStatus) в appReducer
 - переписать fetchDecksTC, меняя status на 'succeeded' или 'failed' (использовать синтаксис async/await, try...catch)
 - resultCode не нужен`
+
+### Задание 2
+1. Дизейблить кнопки update и delete во время запросов при редактировании и удалении колоды
+- используем useState в компоненте DeckItem
+- подсказка: dispatch thunk возвращает промис
