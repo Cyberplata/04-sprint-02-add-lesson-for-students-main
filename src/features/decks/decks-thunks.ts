@@ -3,13 +3,26 @@ import { setAppStatusAC } from '../../app/app-reducer.ts'
 import { decksAPI, UpdateDeckParams } from './decks-api.ts'
 import { addDeckAC, deleteDeckAC, setDecksAC, updateDeckAC } from './decks-reducer.ts'
 
-export const fetchDecksTC = () => (dispatch: Dispatch) => {
-  dispatch(setAppStatusAC("loading"))
-  decksAPI.fetchDecks().then((res) => {
+// async/await fetchDecksTC
+export const fetchDecksTC = () => async (dispatch: Dispatch) => {
+  try {
+    dispatch(setAppStatusAC('loading'))
+    const res = await decksAPI.fetchDecks()
     dispatch(setDecksAC(res.data.items))
-    dispatch(setAppStatusAC("succeeded"))
-  })
+    dispatch(setAppStatusAC('succeeded'))
+  } catch (error) {
+    console.log('fetchDecksTC error', { error })
+  }
 }
+
+// // then/catch fetchDecksTC
+// export const _fetchDecksTC = () => (dispatch: Dispatch) => {
+//   dispatch(setAppStatusAC('loading'))
+//   decksAPI.fetchDecks().then((res) => {
+//     dispatch(setDecksAC(res.data.items))
+//     dispatch(setAppStatusAC('succeeded'))
+//   })
+// }
 
 export const addDeckTC = (name: string) => async (dispatch: Dispatch) => {
   return decksAPI.addDeck(name).then((res) => {
