@@ -45,14 +45,15 @@ export const deleteDeckTC = (id: string) => async (dispatch: Dispatch) => {
 
 // case-1: ошибка бэкенда (на стороне бэкенда). Ошибку создаёт axios, в error.response.data помещает ответ сервера
 // case-2: network error - axios создаёт объект ошибки, сообщение можно взять из поля error.message
-
+// case-3: синхронные ошибки - создаётся "нативная" JS-ошибка, имеет поле message
 
 // syntax async/await
 export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispatch) => {
   try {
+    throw new Error('Boooom!')
     const res = await decksAPI.updateDeck(params)
     dispatch(updateDeckAC(res.data))
   } catch (error) {
-    console.log(error)
+    console.dir(error)
   }
 }
