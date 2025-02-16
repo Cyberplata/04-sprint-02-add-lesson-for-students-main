@@ -44,6 +44,9 @@ export const deleteDeckTC = (id: string) => async (dispatch: Dispatch) => {
 // }
 
 // case-1: ошибка бэкенда (на стороне бэкенда). Ошибку создаёт axios, в error.response.data помещает ответ сервера
+// case-2: network error - axios создаёт объект ошибки, сообщение можно взять из поля error.message
+
+
 // syntax async/await
 export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispatch) => {
   try {
