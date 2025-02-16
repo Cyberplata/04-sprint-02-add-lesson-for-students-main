@@ -6,7 +6,6 @@
 - [Пример готового проекта](https://04-sprint-02-add-lesson-for-mentor.vercel.app/)
 
 ### Задание 1
-
 `1. Рендерить компонент LinearLoader в компоненте App при выполнении запроса за колодами (fetchDecks)
 
 - добавить action (setAppStatus) в appReducer

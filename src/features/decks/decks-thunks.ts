@@ -1,12 +1,12 @@
 import { isAxiosError } from 'axios'
-import { Dispatch } from 'redux'
 import { setAppStatusAC } from '../../app/app-reducer.ts'
+import type { AppDispatch } from '../../app/store.ts'
 import { handleError } from '../../common/utils/handle-error.ts'
 import { decksAPI, UpdateDeckParams } from './decks-api.ts'
 import { addDeckAC, deleteDeckAC, setDecksAC, updateDeckAC } from './decks-reducer.ts'
 
 // async/await fetchDecksTC
-export const fetchDecksTC = () => async (dispatch: Dispatch) => {
+export const fetchDecksTC = () => async (dispatch: AppDispatch) => {
   try {
     dispatch(setAppStatusAC('loading'))
     const res = await decksAPI.fetchDecks()
@@ -18,7 +18,7 @@ export const fetchDecksTC = () => async (dispatch: Dispatch) => {
 }
 
 // // then/catch fetchDecksTC
-// export const _fetchDecksTC = () => (dispatch: Dispatch) => {
+// export const _fetchDecksTC = () => (dispatch: AppDispatch) => {
 //   dispatch(setAppStatusAC('loading'))
 //   decksAPI.fetchDecks().then((res) => {
 //     dispatch(setDecksAC(res.data.items))
@@ -26,20 +26,20 @@ export const fetchDecksTC = () => async (dispatch: Dispatch) => {
 //   })
 // }
 
-export const addDeckTC = (name: string) => async (dispatch: Dispatch) => {
+export const addDeckTC = (name: string) => async (dispatch: AppDispatch) => {
   return decksAPI.addDeck(name).then((res) => {
     dispatch(addDeckAC(res.data))
   })
 }
 
-export const deleteDeckTC = (id: string) => async (dispatch: Dispatch) => {
+export const deleteDeckTC = (id: string) => async (dispatch: AppDispatch) => {
   return decksAPI.deleteDeck(id).then((res) => {
     dispatch(deleteDeckAC(res.data.id))
   })
 }
 
 // syntax then
-// export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispatch) => {
+// export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: AppDispatch) => {
 //   return decksAPI.updateDeck(params).then((res) => {
 //     dispatch(updateDeckAC(res.data))
 //   })
@@ -50,7 +50,7 @@ export const deleteDeckTC = (id: string) => async (dispatch: Dispatch) => {
 // case-3: синхронные ошибки - создаётся "нативная" JS-ошибка, имеет поле message
 
 // syntax async/await
-// export const _updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispatch) => {
+// export const _updateDeckTC = (params: UpdateDeckParams) => async (dispatch: AppDispatch) => {
 //   try {
 //     // throw new Error('Boooom!')
 //     const res = await decksAPI.updateDeck(params)
@@ -68,7 +68,7 @@ export const deleteDeckTC = (id: string) => async (dispatch: Dispatch) => {
 //   }
 // }
 
-export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispatch) => {
+export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: AppDispatch) => {
   try {
     // throw new Error("Синхронная ошибка")
     const res = await decksAPI.updateDeck(params)

@@ -1,18 +1,18 @@
 import { isAxiosError } from 'axios'
-import { Dispatch } from 'redux'
+import { setAppErrorAC } from '../../app/app-reducer.ts'
+import type { AppDispatch } from '../../app/store.ts'
 
 type ServerError = {
   errorMessages: Array<{ field: string; message: string }>
 }
 
-export const handleError = (e: Error, dispatch: Dispatch) => {
+export const handleError = (e: Error, dispatch: AppDispatch) => {
   let errorMessage: string
 
   if (isAxiosError<ServerError>(e)) {
-    errorMessage = e.response ? e.response.data.errorMessages[0].message : e.message
+    dispatch(setAppErrorAC(errorMessage = e.response ? e.response.data.errorMessages[0].message : e.message))
   } else {
-    errorMessage = (e as Error).message
+    dispatch(setAppErrorAC(errorMessage = (e as Error).message))
   }
-
-  console.log(errorMessage)
+  dispatch(setAppErrorAC(errorMessage))
 }
