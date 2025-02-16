@@ -36,8 +36,20 @@ export const deleteDeckTC = (id: string) => async (dispatch: Dispatch) => {
   })
 }
 
+// syntax then
+// export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispatch) => {
+//   return decksAPI.updateDeck(params).then((res) => {
+//     dispatch(updateDeckAC(res.data))
+//   })
+// }
+
+// case-1: ошибка бэкенда (на стороне бэкенда). Ошибку создаёт axios, в error.response.data помещает ответ сервера
+// syntax async/await
 export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispatch) => {
-  return decksAPI.updateDeck(params).then((res) => {
+  try {
+    const res = await decksAPI.updateDeck(params)
     dispatch(updateDeckAC(res.data))
-  })
+  } catch (error) {
+    console.log(error)
+  }
 }
