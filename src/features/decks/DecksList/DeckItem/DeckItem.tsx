@@ -43,8 +43,8 @@ export const DeckItem = ({ deck }: DeckProps) => {
     try {
       setIsLoading(true)
       await dispatch(updateDeckTC({ id: deck.id, name: `${deck.name} updated` }))
-    } catch (error) {
-      console.error('Ошибка при обновлении:', error)
+    } catch (error: any) {
+      console.error('Ошибка при обновлении:', error.message + " clap!!!!")
     } finally {
       setIsLoading(false)
     }
