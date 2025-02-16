@@ -54,6 +54,6 @@ export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispa
     const res = await decksAPI.updateDeck(params)
     dispatch(updateDeckAC(res.data))
   } catch (error) {
-    console.dir(error)
+    console.log({ error })
   }
 }
