@@ -1,5 +1,7 @@
+import { isAxiosError } from 'axios'
 import { Dispatch } from 'redux'
 import { setAppStatusAC } from '../../app/app-reducer.ts'
+import { handleError } from '../../common/utils/handle-error.ts'
 import { decksAPI, UpdateDeckParams } from './decks-api.ts'
 import { addDeckAC, deleteDeckAC, setDecksAC, updateDeckAC } from './decks-reducer.ts'
 
@@ -71,25 +73,35 @@ export const updateDeckTC = (params: UpdateDeckParams) => async (dispatch: Dispa
     // throw new Error("Синхронная ошибка")
     const res = await decksAPI.updateDeck(params)
     dispatch(updateDeckAC(res.data))
-  } catch (error: any) {
-    let errorMessage: string = "Неизвестная ошибка" // fallback сообщение - Если ни одно из условий не сработало, чтобы не оставлять undefined
 
-    if (error.response?.data?.errorMessages?.length) {
-      errorMessage = error.response.data.errorMessages[0].message // case 1: ошибка с бэкенда
-    } else if (error.message) {
-      errorMessage = error.message // case 2: ошибка сети или case 3: синхронная ошибка
-    }
+    // var1
+    // } catch (error: any) {
+    //   let errorMessage: string = 'Неизвестная ошибка' // fallback сообщение - Если ни одно из условий не сработало, чтобы не оставлять undefined
+    //
+    //   if (error.response?.data?.errorMessages?.length) {
+    //     errorMessage = error.response.data.errorMessages[0].message // case 1: ошибка с бэкенда
+    //   } else if (error.message) {
+    //     errorMessage = error.message // case 2: ошибка сети или case 3: синхронная ошибка
+    //   }
+    //
+    //   console.error('Ошибка при обновлении колоды:', errorMessage)
+    // }
 
-    console.error("Ошибка при обновлении колоды:", errorMessage)
+    // var2
+    // catch (error: any) {
+    //   if (error.response && error.response.data && error.response.data.errorMessages) {
+    //     console.error("Ошибка с бэкенда:", error.response.data.errorMessages[0].message)
+    //   } else if (error.message === "Network Error") {
+    //     console.error("Ошибка сети:", error.message)
+    //   } else {
+    //     console.error("Синхронная ошибка:", error.message)
+    //   }
+    // }
+
+    // var3
+  } catch (e) {
+    handleError(e as Error, dispatch)
   }
-  // var2
-  // catch (error: any) {
-  //   if (error.response && error.response.data && error.response.data.errorMessages) {
-  //     console.error("Ошибка с бэкенда:", error.response.data.errorMessages[0].message)
-  //   } else if (error.message === "Network Error") {
-  //     console.error("Ошибка сети:", error.message)
-  //   } else {
-  //     console.error("Синхронная ошибка:", error.message)
-  //   }
-  // }
 }
+
+
